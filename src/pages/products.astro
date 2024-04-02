@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from '../components/productCard'
+import type { CardProps } from "../types";
+import '../styles/productCard.scss'
+
+const response  = await fetch('https://fakestoreapi.com/products');
+const products = (await response.json() as CardProps[]);
+---
+
+<Layout title="Products">
+    <main>
+        <h1>Products page</h1>
+        <div class="products">
+            {products.map(product => <Card client:load {...product}/>)}
+        </div>
+    <main>
+</Layout>
+
+<style>    
+    h1 {
+        margin: 0;
+        text-align: center;
+    }
+
+    body {
+        padding-inline: 170px;
+        color: white;
+        margin: 50px 0 0;
+    }
+
+    .products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 20px;
+        gap: 20px;
+    }
+</style>
